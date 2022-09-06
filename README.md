@@ -1,24 +1,23 @@
-# README
+# data_migrate bug example app
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a minimal rails app to showcase a load issue with the (otherwise excellent) `data_migrate` gem. 
 
-Things you may want to cover:
+Versions used:
+- ruby 3.1.2
+- bundler 2.3.10
+- data_migrate 8.1.1
+- rails 7.0.3.1
 
-* Ruby version
+see `Gemfile` and `Gemfile.lock` for more details.
 
-* System dependencies
+## Problem
 
-* Configuration
+After checking out the app and running `bundle install`, a subsequent run of `bundle exec rails assets:clobber` will fail, because
+no `database.yml` can be found, which hints to a DB connection being forced to be established.
 
-* Database creation
+If you remove `data_migrate` from the Gemfile and `bundle install` again, `bundle exec rails assets:clobber` will run flawlessly. 
+(It does not matter whether we're using `rails assets:clobber` or `rake assets:clobber`)
 
-* Database initialization
+## Fix
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+There is a proposed fix branch commented out in the `Gemfile`, which seems to alleviate the problem.
